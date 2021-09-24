@@ -1,10 +1,10 @@
 # Preview
 Just in case your designer wanna have selected item to be at the end of picker.
-![Preview](https://github.com/foxbunlong/WheelPicker/blob/master/Previews/main/Preview.png)
+![Preview](https://github.com/foxbunlong/WheelPicker/blob/master/Previews/main/Preview.PNG)
 
 # Demo
 Coming soon
-<!-- [WheelPicke.APK](https://github.com/AigeStudio/WheelPicker/blob/master/APK/Demo.apk) -->
+[WheelPicker.APK](https://github.com/foxbunlong/WheelPicker/blob/master/APK/Demo.apk)
 
 ***
 
