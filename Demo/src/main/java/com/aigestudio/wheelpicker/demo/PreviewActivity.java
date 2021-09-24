@@ -2,6 +2,7 @@ package com.aigestudio.wheelpicker.demo;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,18 +41,25 @@ public class PreviewActivity extends Activity implements WheelPicker.OnItemSelec
         // Populate data for Year
         int YEAR_COUNT = 50;
         List<String> yearList = new ArrayList<>();
-        for (int i = 0; i < YEAR_COUNT; i++) {
+        for (int i = YEAR_COUNT; i >= 0; i--) {
             yearList.add((Calendar.getInstance().get(Calendar.YEAR) - i) + "年");
         }
         wheelLeft.setData(yearList);
         wheelLeft.setOnItemSelectedListener(this);
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wheelLeft.setSelectedItemPosition(wheelLeft.getData().size() - 1);
+            }
+        }, 500);
+
         wheelCenter = (WheelPicker) findViewById(R.id.main_wheel_center);
         // Populate data for Month
         int MONTH_COUNT = 12;
         List<String> monthList = new ArrayList<>();
-        for (int i = 0; i < MONTH_COUNT; i++) {
+        for (int i = MONTH_COUNT - 1; i >= 0; i--) {
             int currentMonth = (Calendar.getInstance().get(Calendar.MONTH) - i + 1);
             if (currentMonth < 0) {
                 currentMonth = 12 + currentMonth;
@@ -66,10 +74,24 @@ public class PreviewActivity extends Activity implements WheelPicker.OnItemSelec
         wheelCenter.setOnItemSelectedListener(this);
         currentMonth = Calendar.getInstance().get(Calendar.MONTH);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wheelCenter.setSelectedItemPosition(wheelCenter.getData().size() - 1);
+            }
+        }, 500);
+
         wheelRight = (WheelPicker) findViewById(R.id.main_wheel_right);
         populateDayData(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH)); // Today month
         wheelRight.setOnItemSelectedListener(this);
         currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                wheelRight.setSelectedItemPosition(wheelRight.getData().size() - 1);
+            }
+        }, 500);
 
         gotoBtn = (Button) findViewById(R.id.goto_btn);
         randomlySetGotoBtnIndex();
@@ -81,7 +103,7 @@ public class PreviewActivity extends Activity implements WheelPicker.OnItemSelec
         Calendar myCal = new GregorianCalendar(year, month, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         int daysInMonth = myCal.getActualMaximum(Calendar.DAY_OF_MONTH);
         List<String> dayList = new ArrayList<>();
-        for (int i = 0; i < daysInMonth; i++) {
+        for (int i = daysInMonth - 1; i >= 0; i--) {
             int currentDay = (Calendar.getInstance().get(Calendar.DAY_OF_MONTH) - i);
             if (currentDay < 0) {
                 currentDay = daysInMonth + currentDay;
