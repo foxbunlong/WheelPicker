@@ -6,8 +6,7 @@
         android:label="WheelPickerDemo"
         android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <activity
-            android:name=".PreviewActivity"
-            android:screenOrientation="landscape">
+            android:name=".PreviewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
