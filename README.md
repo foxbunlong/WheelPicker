@@ -1,5 +1,6 @@
 # Preview
-![Preview](https://github.com/AigeStudio/WheelPicker/blob/master/Previews/main/Preview.gif)
+Just in case your designer wanna have selected item to be at the end of picker.
+![Preview](https://github.com/AigeStudio/WheelPicker/blob/master/Previews/main/Preview.png)
 
 # Demo
 Coming soon
