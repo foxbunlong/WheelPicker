@@ -335,6 +335,13 @@ public class WheelDatePicker extends LinearLayout implements WheelPicker.OnItemS
     }
 
     @Override
+    public void setHasSeparator(boolean hasSeparator) {
+        mPickerYear.setHasSeparator(hasSeparator);
+        mPickerMonth.setHasSeparator(hasSeparator);
+        mPickerDay.setHasSeparator(hasSeparator);
+    }
+
+    @Override
     public int getCurtainColor() {
         if (mPickerYear.getCurtainColor() == mPickerMonth.getCurtainColor() &&
                 mPickerMonth.getCurtainColor() == mPickerDay.getCurtainColor())

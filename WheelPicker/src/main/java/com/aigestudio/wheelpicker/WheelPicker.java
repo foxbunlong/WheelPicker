@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Camera;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -57,6 +58,7 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
     private final Handler mHandler = new Handler();
 
     private Paint mPaint;
+    private Paint mPaintSeparator;
     private Scroller mScroller;
     private VelocityTracker mTracker;
     /**
@@ -250,6 +252,18 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
     private boolean hasCurtain;
 
     /**
+     * Add separator
+     *
+     * @see #setHasSeparator(boolean)
+     */
+    private boolean hasSeparator;
+
+    /**
+     * Add unit for date
+     */
+    private String textUnit;
+
+    /**
      * 是否显示空气感效果
      *
      * @see #setAtmospheric(boolean)
@@ -318,6 +332,8 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
                 getResources().getDimensionPixelSize(R.dimen.WheelIndicatorSize));
         hasCurtain = a.getBoolean(R.styleable.WheelPicker_wheel_curtain, false);
         mCurtainColor = a.getColor(R.styleable.WheelPicker_wheel_curtain_color, 0x88FFFFFF);
+        hasSeparator = a.getBoolean(R.styleable.WheelPicker_wheel_has_separator, false);
+        textUnit = a.getString(R.styleable.WheelPicker_wheel_text_unit);
         hasAtmospheric = a.getBoolean(R.styleable.WheelPicker_wheel_atmospheric, false);
         isCurved = a.getBoolean(R.styleable.WheelPicker_wheel_curved, false);
         mItemAlign = a.getInt(R.styleable.WheelPicker_wheel_item_align, ALIGN_CENTER);
@@ -330,6 +346,8 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.LINEAR_TEXT_FLAG);
         mPaint.setTextSize(mItemTextSize);
+
+        mPaintSeparator = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG | Paint.LINEAR_TEXT_FLAG);
 
         if (fontPath != null) {
             Typeface typeface = Typeface.createFromAsset(context.getAssets(), fontPath);
@@ -551,10 +569,10 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
             if (isCyclic) {
                 int actualPos = drawnDataPos % mData.size();
                 actualPos = actualPos < 0 ? (actualPos + mData.size()) : actualPos;
-                data = String.valueOf(mData.get(actualPos));
+                data = String.valueOf(mData.get(actualPos) + textUnit);
             } else {
                 if (isPosInRang(drawnDataPos))
-                    data = String.valueOf(mData.get(drawnDataPos));
+                    data = String.valueOf(mData.get(drawnDataPos) + textUnit);
             }
             mPaint.setColor(mItemTextColor);
             mPaint.setStyle(Paint.Style.FILL);
@@ -614,9 +632,18 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
                 alpha = alpha < 0 ? 0 : alpha;
                 mPaint.setAlpha(alpha);
             }
+
             // 根据卷曲与否计算数据项绘制Y方向中心坐标
             // Correct item's drawn centerY base on curved state
             int drawnCenterY = isCurved ? mDrawnCenterY - distanceToCenter : mDrawnItemCenterY;
+
+            // Draw line separator
+            // Log.d("AAAAAhasSeparator", hasSeparator? "TRUE": "FALSE");
+            if (hasSeparator) {
+                mPaintSeparator.setStyle(Paint.Style.STROKE);
+                mPaintSeparator.setColor(Color.parseColor("#D1D3D4"));
+                canvas.drawLine(0, 100 + drawnCenterY, getWidth(), 100 + drawnCenterY, mPaintSeparator);
+            }
 
             // 判断是否需要为当前数据项绘制不同颜色
             // Judges need to draw different color for current item or not
@@ -661,6 +688,7 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
             mPaint.setStyle(Paint.Style.FILL);
             canvas.drawRect(mRectCurrentItem, mPaint);
         }
+
         // 是否需要绘制指示器
         // Need to draw indicator or not
         if (hasIndicator) {
@@ -1046,6 +1074,12 @@ public class WheelPicker extends View implements IDebug, IWheelPicker, Runnable 
     public void setCurtain(boolean hasCurtain) {
         this.hasCurtain = hasCurtain;
         computeCurrentItemRect();
+        invalidate();
+    }
+
+    @Override
+    public void setHasSeparator(boolean hasSeparator) {
+        this.hasSeparator = hasSeparator;
         invalidate();
     }
 

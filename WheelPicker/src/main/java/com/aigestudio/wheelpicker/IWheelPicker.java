@@ -406,6 +406,12 @@ public interface IWheelPicker {
     void setCurtain(boolean hasCurtain);
 
     /**
+     * Set whether WheelPicker display separator or not
+     * @param hasSeparator
+     */
+    void setHasSeparator(boolean hasSeparator);
+
+    /**
      * 滚轮选择器是否显示幕布
      * <p>
      * Whether WheelPicker display curtain or not

@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="WheelPicker">
         <attr name="wheel_data" format="reference" />
+        <attr name="wheel_text_unit" format="string" />
         <attr name="wheel_selected_item_position" format="integer" />
         <attr name="wheel_item_text_size" format="dimension" />
         <attr name="wheel_item_text_color" format="color" />
@@ -25,5 +26,6 @@
             <enum name="right" value="2" />
         </attr>
         <attr name="wheel_font_path" format="string" />
+        <attr name="wheel_has_separator" format="boolean" />
     </declare-styleable>
 </resources>
